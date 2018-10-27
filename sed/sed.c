@@ -60,6 +60,10 @@ bool sandbox = false;
 /* How do we edit files in-place? (we don't if NULL) */
 char *in_place_extension = NULL;
 
+ /* Do we use copy or rename when in in-place edit mode? (boolean
+   value, non-zero for copy, zero for rename).*/
+ int copy_instead_of_rename = 0;
+
 /* The mode to use to read/write files, either "r"/"w" or "rb"/"wb".  */
 char const *read_mode = "r";
 char const *write_mode = "w";
@@ -148,12 +152,17 @@ Usage: %s [OPTION]... {script-only-if-no-other-script} [input-file]...\n\
 #endif
   fprintf(out, _("  -i[SUFFIX], --in-place[=SUFFIX]\n\
                  edit files in place (makes backup if SUFFIX supplied)\n"));
-#if defined WIN32 || defined _WIN32 || defined __CYGWIN__ \
-  || defined MSDOS || defined __EMX__
-  fprintf(out, _("  -b, --binary\n\
-                 open files in binary mode (CR+LFs are not" \
-                 " processed specially)\n"));
+  fprintf(out, _("  -c, --copy\n\
+                 use copy instead of rename when shuffling files in -i mode\n"));
+  fprintf(out, _("  -b, --binary\n"
+#if ! ( defined(WIN32) || defined(_WIN32) || defined(__CYGWIN__) || defined(MSDOS) || defined(__EMX__) )
+"                 does nothing; for compatibility with WIN32/CYGWIN/MSDOS/EMX (\n"
 #endif
+"                 open files in binary mode (CR+LFs are not treated specially)"
+#if ! ( defined(WIN32) || defined(_WIN32) || defined(__CYGWIN__) || defined(MSDOS) || defined(__EMX__) )
+                 ")"
+#endif
+                 "\n"));
   fprintf(out, _("  -l N, --line-length=N\n\
                  specify the desired line-wrap length for the `l' command\n"));
   fprintf(out, _("  --posix\n\
@@ -174,8 +183,10 @@ Usage: %s [OPTION]... {script-only-if-no-other-script} [input-file]...\n\
                  the output buffers more often\n"));
   fprintf(out, _("  -z, --null-data\n\
                  separate lines by NUL characters\n"));
-  fprintf(out, _("      --help     display this help and exit\n"));
-  fprintf(out, _("      --version  output version information and exit\n"));
+  fprintf(out, _("  --help\n\
+                 display this help and exit\n"));
+  fprintf(out, _("  --version\n\
+                 output version information and exit\n"));
   fprintf(out, _("\n\
 If no -e, --expression, -f, or --file option is given, then the first\n\
 non-option argument is taken as the sed script to interpret.  All\n\
@@ -192,9 +203,9 @@ int
 main (int argc, char **argv)
 {
 #ifdef REG_PERL
-#define SHORTOPTS "bsnrzRuEe:f:l:i::V:"
+#define SHORTOPTS "bcsnrzRuEe:f:l:i::"
 #else
-#define SHORTOPTS "bsnrzuEe:f:l:i::V:"
+#define SHORTOPTS "bcsnrzuEe:f:l:i::"
 #endif
 
   enum { SANDBOX_OPTION = CHAR_MAX+1 };
@@ -208,6 +219,7 @@ main (int argc, char **argv)
     {"expression", 1, NULL, 'e'},
     {"file", 1, NULL, 'f'},
     {"in-place", 2, NULL, 'i'},
+    {"copy", 0, NULL, 'c'},
     {"line-length", 1, NULL, 'l'},
     {"null-data", 0, NULL, 'z'},
     {"zero-terminated", 0, NULL, 'z'},
@@ -289,6 +301,10 @@ main (int argc, char **argv)
           follow_symlinks = true;
           break;
 
+        case 'c':
+          copy_instead_of_rename = true;
+          break;
+
         case 'i':
           separate_files = true;
           if (optarg == NULL)
@@ -316,8 +332,10 @@ main (int argc, char **argv)
           break;
 
         case 'b':
+#if defined(WIN32) || defined(_WIN32) || defined(__CYGWIN__) || defined(MSDOS) || defined(__EMX__)
           read_mode = "rb";
           write_mode = "wb";
+#endif
           break;
 
         case 'E':
@@ -360,6 +378,12 @@ main (int argc, char **argv)
         default:
           usage(EXIT_BAD_USAGE);
         }
+    }
+
+  if (copy_instead_of_rename && in_place_extension == NULL)
+    {
+      fprintf (stderr, _("Error: -c used without -i.\n"));
+      usage(4);
     }
 
   if (!the_program)

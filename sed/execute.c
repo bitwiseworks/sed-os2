@@ -673,11 +673,13 @@ closedown(struct input *input)
       if (strcmp(in_place_extension, "*") != 0)
         {
           char *backup_file_name = get_backup_file_name(target_name);
-          ck_rename (target_name, backup_file_name, input->out_file_name);
+         (copy_instead_of_rename?ck_fccopy:ck_rename)
+            (target_name, backup_file_name, input->out_file_name);
           free (backup_file_name);
         }
 
-      ck_rename (input->out_file_name, target_name, input->out_file_name);
+      (copy_instead_of_rename?ck_fcmove:ck_rename)
+        (input->out_file_name, target_name, input->out_file_name);
       cancel_cleanup ();
       free (input->out_file_name);
     }

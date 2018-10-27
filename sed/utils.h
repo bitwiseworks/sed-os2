@@ -41,6 +41,8 @@ size_t ck_getdelim (char **text, size_t *buflen, char buffer_delimiter,
 FILE * ck_mkstemp (char **p_filename, const char *tmpdir, const char *base,
                    const char *mode) _GL_ARG_NONNULL ((1, 2, 3, 4));
 void ck_rename (const char *from, const char *to, const char *unlink_if_fail);
+void ck_fccopy (const char *from, const char *to, const char *unlink_if_fail);
+void ck_fcmove (const char *from, const char *to, const char *unlink_if_fail);
 
 void *ck_malloc (size_t size);
 void *xmalloc (size_t size);

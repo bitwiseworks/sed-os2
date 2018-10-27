@@ -26,10 +26,15 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <limits.h>
+#include <fcntl.h>
 
 #include "unlocked-io.h"
 #include "utils.h"
 #include "fwriting.h"
+
+/* The mode to use to read and write files, either "rt"/"w" or "rb"/"wb".  */
+extern char const *read_mode;
+extern char const *write_mode;
 
 const char *myname;
 
@@ -80,7 +85,6 @@ panic(const char *str, ...)
   exit(EXIT_PANIC);
 }
 
-
 /* Internal routine to get a filename from open_files */
 static const char * _GL_ATTRIBUTE_PURE
 utils_fp_name(FILE *fp)
@@ -283,7 +287,6 @@ do_ck_fclose(FILE *fp)
   if (fclose(fp) == EOF)
     panic("couldn't close %s: %s", utils_fp_name(fp), strerror(errno));
 }
-
 
 /* Follow symlink and panic if something fails.  Return the ultimate
    symlink target, stored in a temporary buffer that the caller should
@@ -364,34 +367,107 @@ follow_symlink(const char *fname)
 #endif /* ENABLE_FOLLOW_SYMLINKS */
 }
 
-/* Panic on failing rename */
+/* Panic on failing unlink */
 void
-ck_rename (const char *from, const char *to, const char *unlink_if_fail)
+ck_unlink (const char *name)
 {
-  int rd = rename (from, to);
-  if (rd != -1)
-    return;
+  if (unlink (name) == -1)
+    panic (_("cannot remove %s: %s"), name, strerror (errno));
+}
 
-  if (unlink_if_fail)
+/* Attempt to unlink denoted file if operation rd failed. */
+static int
+_unlink_if_fail (rd, unlink_if_fail)
+  int rd;
+  const char *unlink_if_fail;
+{
+  if (rd == -1 && unlink_if_fail)
     {
       int save_errno = errno;
-      errno = 0;
-      unlink (unlink_if_fail);
-
-      /* Failure to remove the temporary file is more severe,
-         so trigger it first.  */
-      if (errno != 0)
-        panic (_("cannot remove %s: %s"), unlink_if_fail, strerror (errno));
-
+      ck_unlink (unlink_if_fail);
       errno = save_errno;
     }
 
+  return rd != -1;
+}
+
+/* Copy contents between files. */
+static int
+_copy (from, to)
+  const char *from, *to;
+{
+  static char buf[4096];
+
+  FILE *infile, *outfile;
+  int c, retval = 0;
+      errno = 0;
+
+  infile = fopen (from, read_mode);
+  if (infile == NULL)
+    return -1;
+
+  outfile = fopen (to, write_mode);
+  if (outfile == NULL)
+    {
+      fclose (infile);
+      return -1;
+    }
+
+  while (1)
+    {
+      size_t bytes_in = fread (buf, 1, sizeof (buf), infile);
+      size_t bytes_out;
+      if (bytes_in == 0)
+       {
+         if (ferror (infile))
+           retval = -1;
+         break;
+       }
+
+      bytes_out = fwrite (buf, 1, bytes_in, outfile);
+      if (bytes_out != bytes_in)
+       {
+         retval = -1;
+         break;
+       }
+    }
+
+  fclose (outfile);
+  fclose (infile);
+
+  return retval;
+}
+
+/* Panic on failing rename */
+void
+ck_rename (from, to, unlink_if_fail)
+  const char *from, *to;
+  const char *unlink_if_fail;
+{
+  if (!_unlink_if_fail (rename (from, to), unlink_if_fail))
   panic (_("cannot rename %s: %s"), from, strerror (errno));
 }
 
+/* Attempt to copy file contents between the files. */
+void
+ck_fccopy (from, to, unlink_if_fail)
+  const char *from, *to;
+  const char *unlink_if_fail;
+{
+  if (!_unlink_if_fail (_copy (from, to), unlink_if_fail))
+    panic (_("cannot copy %s to %s: %s"), from, to, strerror (errno));
+}
 
+/* Copy contents between files, and then unlink the source. */
+void
+ck_fcmove (from, to, unlink_if_fail)
+  const char *from, *to;
+  const char *unlink_if_fail;
+{
+  ck_fccopy (from, to, unlink_if_fail);
+  ck_unlink (from);
+}
 
-
 /* Panic on failing malloc */
 void *
 ck_malloc(size_t size)

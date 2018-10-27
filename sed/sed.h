@@ -234,6 +234,10 @@ extern countT lcmd_out_line_len;
 /* How do we edit files in-place? (we don't if NULL) */
 extern char *in_place_extension;
 
+/* Do we use copy or rename when in in-place edit mode? (boolean
+   value, non-zero for copy, zero for rename).*/
+extern int copy_instead_of_rename;
+
 /* The mode to use to read and write files, either "rt"/"w" or "rb"/"wb".  */
 extern char const *read_mode;
 extern char const *write_mode;
