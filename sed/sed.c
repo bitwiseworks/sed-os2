@@ -65,8 +65,13 @@ char *in_place_extension = NULL;
  int copy_instead_of_rename = 0;
 
 /* The mode to use to read/write files, either "r"/"w" or "rb"/"wb".  */
+#ifdef __OS2__
+char const *read_mode = "rb";
+char const *write_mode = "wb";
+#else
 char const *read_mode = "r";
 char const *write_mode = "w";
+#endif
 
 /* Do we need to be pedantically POSIX compliant? */
 enum posixicity_types posixicity;
@@ -159,6 +164,9 @@ Usage: %s [OPTION]... {script-only-if-no-other-script} [input-file]...\n\
 "                 does nothing; for compatibility with WIN32/CYGWIN/MSDOS/EMX (\n"
 #endif
 "                 open files in binary mode (CR+LFs are not treated specially)"
+#ifdef __OS2__
+"\n                   [always set on OS/2]"
+#endif
 #if ! ( defined(WIN32) || defined(_WIN32) || defined(__CYGWIN__) || defined(MSDOS) || defined(__EMX__) )
                  ")"
 #endif
