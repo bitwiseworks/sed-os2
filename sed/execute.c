@@ -549,11 +549,7 @@ open_next_file(const char *name, struct input *input)
       clearerr(stdin);	/* clear any stale EOF indication */
 #if defined WIN32 || defined _WIN32 || defined __CYGWIN__ \
   || defined MSDOS || defined __EMX__
-#ifndef __KLIBC__
       input->fp = ck_fdopen (fileno (stdin), "stdin", read_mode, false);
-#else
-      input->fp = ck_fdopen (fileno (stdin), "stdin", "r", false);
-#endif
 #else
       input->fp = stdin;
 #endif
