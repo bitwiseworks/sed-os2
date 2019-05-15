@@ -82,7 +82,6 @@ AC_DEFUN([gl_EARLY],
   # Code from module close-tests:
   # Code from module closedir:
   # Code from module closeout:
-  # Code from module configmake:
   # Code from module connect:
   # Code from module connect-tests:
   # Code from module ctype:
@@ -172,7 +171,6 @@ AC_DEFUN([gl_EARLY],
   # Code from module gnupload:
   # Code from module hard-locale:
   # Code from module havelib:
-  # Code from module host-cpu-c-abi:
   # Code from module ignore-value:
   # Code from module ignore-value-tests:
   # Code from module include_next:
@@ -191,6 +189,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module langinfo-tests:
   # Code from module largefile:
   AC_REQUIRE([AC_SYS_LARGEFILE])
+  # Code from module libc-config:
   # Code from module limits-h:
   # Code from module limits-h-tests:
   # Code from module link:
@@ -198,6 +197,7 @@ AC_DEFUN([gl_EARLY],
   # Code from module listen:
   # Code from module listen-tests:
   # Code from module localcharset:
+  # Code from module localcharset-tests:
   # Code from module locale:
   # Code from module locale-tests:
   # Code from module localeconv:
@@ -226,6 +226,8 @@ AC_DEFUN([gl_EARLY],
   # Code from module memrchr:
   # Code from module memrchr-tests:
   # Code from module minmax:
+  # Code from module mkdir:
+  # Code from module mkdir-tests:
   # Code from module mkostemp:
   # Code from module msvc-inval:
   # Code from module msvc-nothrow:
@@ -425,7 +427,6 @@ AC_DEFUN([gl_INIT],
   gl_CLOSE_STREAM
   gl_MODULE_INDICATOR([close-stream])
   gl_CLOSEOUT
-  gl_CONFIGMAKE_PREP
   gl_CTYPE_H
   gl_DIRNAME_LGPL
   gl_DOUBLE_SLASH_ROOT
@@ -496,8 +497,6 @@ AC_DEFUN([gl_INIT],
           m4_defn([m4_PACKAGE_VERSION])), [1], [],
         [AC_CONFIG_LINKS([$GNUmakefile:$GNUmakefile], [],
           [GNUmakefile=$GNUmakefile])])
-  gl_HARD_LOCALE
-  AC_REQUIRE([gl_HOST_CPU_C_ABI])
   gl_FUNC_ISBLANK
   if test $HAVE_ISBLANK = 0; then
     AC_LIBOBJ([isblank])
@@ -505,9 +504,11 @@ AC_DEFUN([gl_INIT],
   gl_CTYPE_MODULE_INDICATOR([isblank])
   gl_LANGINFO_H
   AC_REQUIRE([gl_LARGEFILE])
+  gl___INLINE
   gl_LIMITS_H
   gl_LOCALCHARSET
-  LOCALCHARSET_TESTS_ENVIRONMENT="CHARSETALIASDIR=\"\$(abs_top_builddir)/$gl_source_base\""
+  dnl For backward compatibility. Some packages still use this.
+  LOCALCHARSET_TESTS_ENVIRONMENT=
   AC_SUBST([LOCALCHARSET_TESTS_ENVIRONMENT])
   gl_LOCALE_H
   gl_FUNC_LOCALECONV
@@ -572,6 +573,10 @@ AC_DEFUN([gl_INIT],
   fi
   gl_STRING_MODULE_INDICATOR([memrchr])
   gl_MINMAX
+  gl_FUNC_MKDIR
+  if test $REPLACE_MKDIR = 1; then
+    AC_LIBOBJ([mkdir])
+  fi
   gl_FUNC_MKOSTEMP
   if test $HAVE_MKOSTEMP = 0; then
     AC_LIBOBJ([mkostemp])
@@ -903,6 +908,7 @@ changequote([, ])dnl
   gl_SYS_SOCKET_MODULE_INDICATOR([listen])
   AC_CHECK_FUNCS_ONCE([newlocale])
   gl_LOCALENAME
+  gl_LOCALE_MODULE_INDICATOR([localename])
   AC_CHECK_FUNCS_ONCE([newlocale])
   gl_FUNC_LSEEK
   if test $REPLACE_LSEEK = 1; then
@@ -1209,6 +1215,8 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/alloca.in.h
   lib/arg-nonnull.h
   lib/basename-lgpl.c
+  lib/binary-io.c
+  lib/binary-io.h
   lib/btowc.c
   lib/c++defs.h
   lib/c-ctype.c
@@ -1218,11 +1226,11 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/c-strcaseeq.h
   lib/c-strncasecmp.c
   lib/canonicalize-lgpl.c
+  lib/cdefs.h
   lib/close-stream.c
   lib/close-stream.h
   lib/closeout.c
   lib/closeout.h
-  lib/config.charset
   lib/copy-acl.c
   lib/ctype.in.h
   lib/dfa.c
@@ -1267,6 +1275,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/intprops.h
   lib/isblank.c
   lib/langinfo.in.h
+  lib/libc-config.h
   lib/limits.in.h
   lib/localcharset.c
   lib/localcharset.h
@@ -1289,6 +1298,7 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/memchr.valgrind
   lib/memrchr.c
   lib/minmax.h
+  lib/mkdir.c
   lib/mkostemp.c
   lib/msvc-inval.c
   lib/msvc-inval.h
@@ -1306,8 +1316,6 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/quotearg.c
   lib/quotearg.h
   lib/readlink.c
-  lib/ref-add.sin
-  lib/ref-del.sin
   lib/regcomp.c
   lib/regex.c
   lib/regex.h
@@ -1371,11 +1379,11 @@ AC_DEFUN([gl_FILE_LIST], [
   lib/xalloc.h
   lib/xmalloc.c
   m4/00gnulib.m4
+  m4/__inline.m4
   m4/absolute-header.m4
   m4/acl.m4
   m4/alloca.m4
   m4/arpa_inet_h.m4
-  m4/asm-underscore.m4
   m4/assert.m4
   m4/btowc.m4
   m4/builtin-expect.m4
@@ -1385,7 +1393,6 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/closedir.m4
   m4/closeout.m4
   m4/codeset.m4
-  m4/configmake.m4
   m4/ctype.m4
   m4/dirent_h.m4
   m4/dirfd.m4
@@ -1423,10 +1430,10 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/gettimeofday.m4
   m4/glibc21.m4
   m4/gnulib-common.m4
-  m4/hard-locale.m4
   m4/host-cpu-c-abi.m4
   m4/include_next.m4
   m4/inet_pton.m4
+  m4/intl-thread-locale.m4
   m4/intlmacosx.m4
   m4/inttypes-pri.m4
   m4/inttypes.m4
@@ -1465,6 +1472,7 @@ AC_DEFUN([gl_FILE_LIST], [
   m4/memchr.m4
   m4/memrchr.m4
   m4/minmax.m4
+  m4/mkdir.m4
   m4/mkostemp.m4
   m4/mmap-anon.m4
   m4/mode_t.m4
@@ -1650,6 +1658,7 @@ AC_DEFUN([gl_FILE_LIST], [
   tests/test-link.c
   tests/test-link.h
   tests/test-listen.c
+  tests/test-localcharset.c
   tests/test-locale.c
   tests/test-localeconv.c
   tests/test-localename.c
@@ -1674,6 +1683,8 @@ AC_DEFUN([gl_FILE_LIST], [
   tests/test-mbsinit.sh
   tests/test-memchr.c
   tests/test-memrchr.c
+  tests/test-mkdir.c
+  tests/test-mkdir.h
   tests/test-nanosleep.c
   tests/test-netinet_in.c
   tests/test-nl_langinfo.c
@@ -1769,8 +1780,6 @@ AC_DEFUN([gl_FILE_LIST], [
   tests=lib/accept.c
   tests=lib/arg-nonnull.h
   tests=lib/arpa_inet.in.h
-  tests=lib/binary-io.c
-  tests=lib/binary-io.h
   tests=lib/bind.c
   tests=lib/c++defs.h
   tests=lib/cloexec.c
@@ -1805,6 +1814,8 @@ AC_DEFUN([gl_FILE_LIST], [
   tests=lib/ioctl.c
   tests=lib/link.c
   tests=lib/listen.c
+  tests=lib/localename-table.c
+  tests=lib/localename-table.h
   tests=lib/localename.c
   tests=lib/localename.h
   tests=lib/lseek.c

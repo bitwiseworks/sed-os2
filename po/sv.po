@@ -6,10 +6,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: sed 4.4.104\n"
+"Project-Id-Version: sed 4.5.48\n"
 "Report-Msgid-Bugs-To: bug-gnu-utils@gnu.org\n"
-"POT-Creation-Date: 2018-03-31 18:40-0700\n"
-"PO-Revision-Date: 2018-03-25 22:10+0200\n"
+"POT-Creation-Date: 2018-12-20 22:03-0800\n"
+"PO-Revision-Date: 2018-12-16 20:18+0100\n"
 "Last-Translator: Anders Jonsson <anders.jonsson@norsjovallen.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Bugs: Report translation errors to the Language-Team address.\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.2\n"
 
 #: lib/closeout.c:122
 msgid "write error"
@@ -29,39 +29,39 @@ msgstr "skrivfel"
 msgid "preserving permissions for %s"
 msgstr "bevarar rättigheter för %s"
 
-#: lib/dfa.c:958
+#: lib/dfa.c:970
 msgid "unbalanced ["
 msgstr "obalanserad ["
 
-#: lib/dfa.c:1079
+#: lib/dfa.c:1091
 msgid "invalid character class"
 msgstr "ogiltig teckenklass"
 
-#: lib/dfa.c:1205
+#: lib/dfa.c:1217
 msgid "character class syntax is [[:space:]], not [:space:]"
 msgstr "syntax för teckenklass är [[:space:]], inte [:space:]"
 
-#: lib/dfa.c:1272
+#: lib/dfa.c:1284
 msgid "unfinished \\ escape"
 msgstr "oavslutad \\-sekvens"
 
-#: lib/dfa.c:1433
+#: lib/dfa.c:1445
 msgid "invalid content of \\{\\}"
 msgstr "ogiltigt innehåll i \\{\\}"
 
-#: lib/dfa.c:1436
+#: lib/dfa.c:1448
 msgid "regular expression too big"
 msgstr "reguljärt uttryck för stort"
 
-#: lib/dfa.c:1850
+#: lib/dfa.c:1863
 msgid "unbalanced ("
 msgstr "obalanserad ("
 
-#: lib/dfa.c:1968
+#: lib/dfa.c:1981
 msgid "no syntax specified"
 msgstr "ingen syntax angiven"
 
-#: lib/dfa.c:1976
+#: lib/dfa.c:1992
 msgid "unbalanced )"
 msgstr "obalanserad )"
 
@@ -205,7 +205,7 @@ msgstr "Reguljärt uttryck för stort"
 msgid "Unmatched ) or \\)"
 msgstr "Obalanserad ) eller \\)"
 
-#: lib/regcomp.c:689
+#: lib/regcomp.c:688
 msgid "No previous regular expression"
 msgstr "Inget tidigare reguljärt uttryck"
 
@@ -214,12 +214,12 @@ msgstr "Inget tidigare reguljärt uttryck"
 msgid "setting permissions for %s"
 msgstr "sätter rättigheter för %s"
 
-#: lib/version-etc.c:74
+#: lib/version-etc.c:73
 #, c-format
 msgid "Packaged by %s (%s)\n"
 msgstr "Paketerad av %s (%s)\n"
 
-#: lib/version-etc.c:77
+#: lib/version-etc.c:76
 #, c-format
 msgid "Packaged by %s\n"
 msgstr "Paketerad av %s\n"
@@ -227,11 +227,11 @@ msgstr "Paketerad av %s\n"
 #. TRANSLATORS: Translate "(C)" to the copyright symbol
 #. (C-in-a-circle), if this symbol is available in the user's
 #. locale.  Otherwise, do not translate "(C)"; leave it as-is.
-#: lib/version-etc.c:84
+#: lib/version-etc.c:83
 msgid "(C)"
 msgstr "©"
 
-#: lib/version-etc.c:86
+#: lib/version-etc.c:85
 msgid ""
 "\n"
 "License GPLv3+: GNU GPL version 3 or later <https://gnu.org/licenses/gpl."
@@ -436,140 +436,144 @@ msgstr "kommando saknas"
 msgid "command only uses one address"
 msgstr "kommandot använder endast en adress"
 
-#: sed/compile.c:164
+#: sed/compile.c:165
 msgid "unterminated address regex"
 msgstr "oavslutat reguljärt uttryck för adress"
 
-#: sed/compile.c:165
+#: sed/compile.c:166
 msgid "unterminated `s' command"
 msgstr "oavslutat ”s”-kommando"
 
-#: sed/compile.c:166
+#: sed/compile.c:167
 msgid "unterminated `y' command"
 msgstr "oavslutat ”y”-kommando"
 
-#: sed/compile.c:167
+#: sed/compile.c:168
 msgid "unknown option to `s'"
 msgstr "flaggan okänd för ”s”"
 
-#: sed/compile.c:169
+#: sed/compile.c:170
 msgid "multiple `p' options to `s' command"
 msgstr "flera ”p”-flaggor till ”s”-kommandot"
 
-#: sed/compile.c:171
+#: sed/compile.c:172
 msgid "multiple `g' options to `s' command"
 msgstr "flera ”g”-flaggor till ”s”-kommandot"
 
-#: sed/compile.c:173
+#: sed/compile.c:174
 msgid "multiple number options to `s' command"
 msgstr "flera sifferflaggor till ”s”-kommandot"
 
-#: sed/compile.c:175
+#: sed/compile.c:176
 msgid "number option to `s' command may not be zero"
 msgstr "sifferflagga till kommandot ”s” får inte vara noll"
 
-#: sed/compile.c:177
+#: sed/compile.c:178
 msgid "strings for `y' command are different lengths"
 msgstr "strängarna för kommandot ”y” är olika långa"
 
-#: sed/compile.c:179
+#: sed/compile.c:180
 msgid "delimiter character is not a single-byte character"
 msgstr "avgränsningstecknet är inte en ensam byte"
 
-#: sed/compile.c:181
+#: sed/compile.c:182
 msgid "expected newer version of sed"
 msgstr "nyare version av sed förväntades"
 
-#: sed/compile.c:183
+#: sed/compile.c:184
 msgid "invalid usage of line address 0"
 msgstr "felaktig användning av radadress 0"
 
-#: sed/compile.c:184
+#: sed/compile.c:185
 #, c-format
 msgid "unknown command: `%c'"
 msgstr "okänt kommando: ”%c”"
 
-#: sed/compile.c:186
+#: sed/compile.c:187
 msgid "incomplete command"
 msgstr "ofullständigt kommando"
 
-#: sed/compile.c:188
+#: sed/compile.c:189
 msgid "\":\" lacks a label"
 msgstr "”:” saknar en etikett"
 
-#: sed/compile.c:190
+#: sed/compile.c:191
 msgid "recursive escaping after \\c not allowed"
 msgstr "rekursiva kontrollsekvenser efter \\c tillåts inte"
 
-#: sed/compile.c:213
+#: sed/compile.c:193
+msgid "e/r/w commands disabled in sandbox mode"
+msgstr "kommandona e/r/w är inaktiverade i sandlådeläge"
+
+#: sed/compile.c:215
 #, c-format
 msgid "%s: file %s line %lu: %s\n"
 msgstr "%s: fil %s rad %lu: %s\n"
 
-#: sed/compile.c:216
+#: sed/compile.c:218
 #, c-format
 msgid "%s: -e expression #%lu, char %lu: %s\n"
 msgstr "%s: -e uttryck #%lu, tecken %lu: %s\n"
 
-#: sed/compile.c:1644
+#: sed/compile.c:1607
 #, c-format
 msgid "can't find label for jump to `%s'"
 msgstr "kan inte hitta etiketten för hopp till ”%s”"
 
-#: sed/execute.c:254 sed/execute.c:271
+#: sed/execute.c:253 sed/execute.c:270
 #, c-format
 msgid "case conversion produced an invalid character"
 msgstr "skiftlägeskonvertering producerade ett ogiltigt tecken"
 
-#: sed/execute.c:565
+#: sed/execute.c:561
 #, c-format
 msgid "%s: can't read %s: %s\n"
 msgstr "%s: kan inte läsa %s: %s\n"
 
-#: sed/execute.c:590
+#: sed/execute.c:587
 #, c-format
 msgid "couldn't edit %s: is a terminal"
 msgstr "kunde inte redigera %s: är en terminal"
 
-#: sed/execute.c:595
+#: sed/execute.c:592
 #, c-format
 msgid "couldn't edit %s: not a regular file"
 msgstr "kunde inte redigera %s: inte en vanlig fil"
 
-#: sed/execute.c:606
+#: sed/execute.c:603
 #, c-format
 msgid "%s: warning: failed to set default file creation context to %s: %s"
 msgstr ""
 "%s: varning: misslyckades med att ställa in standardkontext för filskapande "
 "till %s: %s"
 
-#: sed/execute.c:614
+#: sed/execute.c:611
 #, c-format
 msgid "%s: warning: failed to get security context of %s: %s"
 msgstr "%s: varning: misslyckades med att erhålla säkerhetskontext för %s: %s"
 
-#: sed/execute.c:633 sed/utils.c:178
+#: sed/execute.c:630 sed/utils.c:188
 #, c-format
 msgid "couldn't open temporary file %s: %s"
 msgstr "kunde inte öppna temporära filen %s: %s"
 
-#: sed/execute.c:1148 sed/execute.c:1358
+#: sed/execute.c:1167 sed/execute.c:1366
 msgid "error in subprocess"
 msgstr "fel i underprocess"
 
-#: sed/execute.c:1150
+#: sed/execute.c:1169
 msgid "option `e' not supported"
 msgstr "flaggan ”e” stöds inte"
 
-#: sed/execute.c:1339
+#: sed/execute.c:1347
 msgid "`e' command not supported"
 msgstr "kommandot ”e” stöds inte"
 
-#: sed/execute.c:1665
+#: sed/execute.c:1662
 msgid "no input files"
 msgstr "inga indatafiler"
 
-#: sed/regexp.c:39
+#: sed/regexp.c:40
 msgid "no previous regular expression"
 msgstr "inget tidigare reguljärt uttryck"
 
@@ -577,32 +581,40 @@ msgstr "inget tidigare reguljärt uttryck"
 # Jag antar RHS står för "right hand side".  Man kan då säga
 # "... kommandots högersida"
 #
-#: sed/regexp.c:141
+#: sed/regexp.c:125
 #, c-format
 msgid "invalid reference \\%d on `s' command's RHS"
 msgstr "ogiltig referens \\%d på ”s”-kommandots högersida"
 
-#: sed/regexp.c:259
+#: sed/regexp.c:196
 msgid "regex input buffer length larger than INT_MAX"
 msgstr "indatabuffertlängd för reguljära uttryck större än INT_MAX"
 
-#: sed/sed.c:35
+#: sed/sed.c:36
 msgid "Jay Fenlason"
 msgstr "Jay Fenlason"
 
-#: sed/sed.c:36
+#: sed/sed.c:37
 msgid "Tom Lord"
 msgstr "Tom Lord"
 
-#: sed/sed.c:37
+#: sed/sed.c:38
 msgid "Ken Pizzini"
 msgstr "Ken Pizzini"
 
-#: sed/sed.c:38
+#: sed/sed.c:39
 msgid "Paolo Bonzini"
 msgstr "Paolo Bonzini"
 
-#: sed/sed.c:113
+#: sed/sed.c:40
+msgid "Jim Meyering"
+msgstr "Jim Meyering"
+
+#: sed/sed.c:41
+msgid "Assaf Gordon"
+msgstr "Assaf Gordon"
+
+#: sed/sed.c:124
 #, c-format
 msgid ""
 "GNU sed home page: <https://www.gnu.org/software/sed/>.\n"
@@ -611,22 +623,14 @@ msgstr ""
 "Webbsida för GNU sed: <https://www.gnu.org/software/sed/>.\n"
 "Allmän hjälp för GNU-programvara: <https://www.gnu.org/gethelp/>.\n"
 
-#: sed/sed.c:120
+#: sed/sed.c:130
 #, c-format
 msgid "E-mail bug reports to: <%s>.\n"
 msgstr ""
 "Skicka felrapporter till: <%s>.\n"
 "Skicka synpunkter på översättningen till <tp-sv@listor.tp-sv.se>.\n"
 
-#: sed/sed.c:129
-msgid ""
-"  -R, --regexp-perl\n"
-"                 use Perl 5's regular expressions syntax in the script.\n"
-msgstr ""
-"  -R, --regexp-perl\n"
-"                 använd Perl 5:s syntax för reguljära uttryck i skriptet.\n"
-
-#: sed/sed.c:134
+#: sed/sed.c:138
 #, c-format
 msgid ""
 "Usage: %s [OPTION]... {script-only-if-no-other-script} [input-file]...\n"
@@ -635,7 +639,7 @@ msgstr ""
 "Användning: %s [FLAGGA]… {skript-endast-om-inga-andra} [indatafil]…\n"
 "\n"
 
-#: sed/sed.c:138
+#: sed/sed.c:142
 #, c-format
 msgid ""
 "  -n, --quiet, --silent\n"
@@ -644,7 +648,16 @@ msgstr ""
 "  -n, --quiet, --silent\n"
 "                 förhindrar automatisk utskrift av mönsterutrymme\n"
 
-#: sed/sed.c:140
+#: sed/sed.c:144
+#, c-format
+msgid ""
+"      --debug\n"
+"                 annotate program execution\n"
+msgstr ""
+"      --debug\n"
+"                 kommentera körning av program\n"
+
+#: sed/sed.c:146
 #, c-format
 msgid ""
 "  -e script, --expression=script\n"
@@ -653,7 +666,7 @@ msgstr ""
 "  -e skript, --expression=skript\n"
 "                 lägg till skript till de kommandon som ska utföras\n"
 
-#: sed/sed.c:142
+#: sed/sed.c:148
 #, c-format
 msgid ""
 "  -f script-file, --file=script-file\n"
@@ -664,7 +677,7 @@ msgstr ""
 "                 lägg till innehållet i skriptfil till de kommandon som ska\n"
 "                 utföras\n"
 
-#: sed/sed.c:146
+#: sed/sed.c:152
 #, c-format
 msgid ""
 "  --follow-symlinks\n"
@@ -673,7 +686,7 @@ msgstr ""
 "  --follow-symlinks\n"
 "                 följ symlänkar när behandling sker på plats\n"
 
-#: sed/sed.c:149
+#: sed/sed.c:155
 #, c-format
 msgid ""
 "  -i[SUFFIX], --in-place[=SUFFIX]\n"
@@ -683,7 +696,7 @@ msgstr ""
 "                 redigera filer på plats (skapar säkerhetskopia om ÄNDELSE\n"
 "                 tillhandahålls)\n"
 
-#: sed/sed.c:153
+#: sed/sed.c:158
 #, c-format
 msgid ""
 "  -b, --binary\n"
@@ -693,7 +706,7 @@ msgstr ""
 "  -b, --binary\n"
 "                 öppna filer i binärläge (CR+LF särbehandlas inte)\n"
 
-#: sed/sed.c:157
+#: sed/sed.c:162
 #, c-format
 msgid ""
 "  -l N, --line-length=N\n"
@@ -702,7 +715,7 @@ msgstr ""
 "  -l N, --line-length=N\n"
 "                 ange önskad radbrytningslängd för ”l”-kommandot\n"
 
-#: sed/sed.c:159
+#: sed/sed.c:164
 #, c-format
 msgid ""
 "  --posix\n"
@@ -711,7 +724,7 @@ msgstr ""
 "  --posix\n"
 "                 inaktivera alla GNU-utökningar.\n"
 
-#: sed/sed.c:161
+#: sed/sed.c:166
 #, c-format
 msgid ""
 "  -E, -r, --regexp-extended\n"
@@ -722,7 +735,7 @@ msgstr ""
 "                 använd utökade reguljära uttryck i skriptet\n"
 "                 (för portabilitet använd POSIX -E).\n"
 
-#: sed/sed.c:167
+#: sed/sed.c:169
 #, c-format
 msgid ""
 "  -s, --separate\n"
@@ -733,7 +746,7 @@ msgstr ""
 "                 betrakta filer som separata istället för som en\n"
 "                 kontinuerlig lång dataström.\n"
 
-#: sed/sed.c:170
+#: sed/sed.c:172
 #, c-format
 msgid ""
 "      --sandbox\n"
@@ -742,7 +755,7 @@ msgstr ""
 "      --sandbox\n"
 "                 arbeta i sandlådeläge (inaktivera kommandona e/r/w).\n"
 
-#: sed/sed.c:172
+#: sed/sed.c:174
 #, c-format
 msgid ""
 "  -u, --unbuffered\n"
@@ -754,7 +767,7 @@ msgstr ""
 "                 läs in minimala mängder data från indatafilerna och töm\n"
 "                 utdatabuffertarna oftare\n"
 
-#: sed/sed.c:175
+#: sed/sed.c:177
 #, c-format
 msgid ""
 "  -z, --null-data\n"
@@ -763,17 +776,17 @@ msgstr ""
 "  -z, --null-data\n"
 "                 separera rader med nolltecken\n"
 
-#: sed/sed.c:177
+#: sed/sed.c:179
 #, c-format
 msgid "      --help     display this help and exit\n"
 msgstr "      --help     visa denna hjälptext och avsluta\n"
 
-#: sed/sed.c:178
+#: sed/sed.c:180
 #, c-format
 msgid "      --version  output version information and exit\n"
 msgstr "      --version  visa versionsinformation och avsluta\n"
 
-#: sed/sed.c:179
+#: sed/sed.c:181
 #, c-format
 msgid ""
 "\n"
@@ -790,47 +803,68 @@ msgstr ""
 "läses standard in.\n"
 "\n"
 
-#: sed/utils.c:73 sed/utils.c:384
+#: sed/sed.c:373
+msgid "failed to set binary mode on STDIN"
+msgstr "misslyckades med att ställa in binärläge för STDIN"
+
+#: sed/sed.c:375
+msgid "failed to set binary mode on STDOUT"
+msgstr "misslyckades med att ställa in binärläge för STDOUT"
+
+#: sed/utils.c:77 sed/utils.c:395
 #, c-format
 msgid "cannot remove %s: %s"
 msgstr "kan inte ta bort %s: %s"
 
-#: sed/utils.c:136
+#: sed/utils.c:146
 #, c-format
 msgid "couldn't open file %s: %s"
 msgstr "kunde inte öppna filen %s: %s"
 
-#: sed/utils.c:155
+#: sed/utils.c:165
 #, c-format
 msgid "couldn't attach to %s: %s"
 msgstr "kunde inte fästa vid %s: %s"
 
 #: sed/utils.c:192
 #, c-format
+msgid "failed to set binary mode on '%s'"
+msgstr "misslyckades med att ställa in binärläge för ”%s”"
+
+#: sed/utils.c:207
+#, c-format
 msgid "couldn't write %llu item to %s: %s"
 msgid_plural "couldn't write %llu items to %s: %s"
 msgstr[0] "kunde inte skriva %llu objekt till %s: %s"
 msgstr[1] "kunde inte skriva %llu objekt till %s: %s"
 
-#: sed/utils.c:204 sed/utils.c:223
+#: sed/utils.c:219 sed/utils.c:238
 #, c-format
 msgid "read error on %s: %s"
 msgstr "läsfel vid %s: %s"
 
-#: sed/utils.c:325
+#: sed/utils.c:336
 #, c-format
 msgid "couldn't follow symlink %s: %s"
 msgstr "kunde inte följa symlänken %s: %s"
 
-#: sed/utils.c:359
+#: sed/utils.c:370
 #, c-format
 msgid "cannot stat %s: %s"
 msgstr "kan inte ta status på %s: %s"
 
-#: sed/utils.c:389
+#: sed/utils.c:400
 #, c-format
 msgid "cannot rename %s: %s"
 msgstr "kan inte byta namn på %s: %s"
+
+#~ msgid ""
+#~ "  -R, --regexp-perl\n"
+#~ "                 use Perl 5's regular expressions syntax in the script.\n"
+#~ msgstr ""
+#~ "  -R, --regexp-perl\n"
+#~ "                 använd Perl 5:s syntax för reguljära uttryck i "
+#~ "skriptet.\n"
 
 #~ msgid "%s: option '--%s' doesn't allow an argument\n"
 #~ msgstr "%s: flaggan ”--%s” tar inget argument\n"

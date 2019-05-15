@@ -12,8 +12,7 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. */
+    along with this program; If not, see <https://www.gnu.org/licenses/>. */
 
 #include <stdio.h>
 
@@ -45,10 +44,7 @@ void ck_fccopy (const char *from, const char *to, const char *unlink_if_fail);
 void ck_fcmove (const char *from, const char *to, const char *unlink_if_fail);
 
 void *ck_malloc (size_t size);
-void *xmalloc (size_t size);
 void *ck_realloc (void *ptr, size_t size);
-char *ck_strdup (const char *str);
-void *ck_memdup (const void *buf, size_t len);
 
 struct buffer *init_buffer (void);
 char *get_buffer (struct buffer const *b) _GL_ATTRIBUTE_PURE;
@@ -56,5 +52,3 @@ size_t size_buffer (struct buffer const *b) _GL_ATTRIBUTE_PURE;
 char *add_buffer (struct buffer *b, const char *p, size_t n);
 char *add1_buffer (struct buffer *b, int ch);
 void free_buffer (struct buffer *b);
-
-extern const char *myname;

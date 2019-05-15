@@ -1,6 +1,6 @@
-This is sed.info, produced by makeinfo version 6.3 from sed.texi.
+This is sed.info, produced by makeinfo version 6.5 from sed.texi.
 
-This file documents version 4.5 of GNU 'sed', a stream editor.
+This file documents version 4.7 of GNU 'sed', a stream editor.
 
    Copyright (C) 1998-2018 Free Software Foundation, Inc.
 
@@ -22,7 +22,7 @@ File: sed.info,  Node: Top,  Next: Introduction,  Up: (dir)
 GNU 'sed'
 *********
 
-This file documents version 4.5 of GNU 'sed', a stream editor.
+This file documents version 4.7 of GNU 'sed', a stream editor.
 
    Copyright (C) 1998-2018 Free Software Foundation, Inc.
 
@@ -167,6 +167,22 @@ The full format for invoking 'sed' is:
      cycle through the script (*note How 'sed' works: Execution Cycle.).
      These options disable this automatic printing, and 'sed' only
      produces output when explicitly told to via the 'p' command.
+
+'--debug'
+     Print the input sed program in canonical form, and annotate program
+     execution.
+          $ echo 1 | sed '\%1%s21232'
+          3
+
+          $ echo 1 | sed --debug '\%1%s21232'
+          SED PROGRAM:
+            /1/ s/1/3/
+          INPUT:   'STDIN' line 1
+          PATTERN: 1
+          COMMAND: /1/ s/1/3/
+          PATTERN: 3
+          END-OF-CYCLE:
+          3
 
 '-e SCRIPT'
 '--expression=SCRIPT'
@@ -584,7 +600,7 @@ in parentheses.
 '#'
      A comment, until the next newline.
 
-'{ CMD ; CMD ... }'
+'{ CMD ; CMD ... }'
      Group several commands together.
 
 '='
@@ -1546,7 +1562,7 @@ be in *note Extended Regular Expression (ERE): ERE syntax. syntax.
      tedious escaping of every '/'.  If REGEXP itself includes any
      delimiter characters, each must be escaped by a backslash ('\').
 
-     The following two commands are equivalent.  They print lines which
+     The following commands are equivalent.  They print lines which
      start with '/home/alice/documents/':
 
           sed -n '/^\/home\/alice\/documents\//p'
@@ -1769,9 +1785,9 @@ expressions is in the behavior of a few special characters: '?', '+',
 parentheses, braces ('{}'), and '|'.
 
    With basic (BRE) syntax, these characters do not have special meaning
-unless prefixed backslash ('\'); While with extended (ERE) syntax it is
-reversed: these characters are special unless they are prefixed with
-backslash ('\').
+unless prefixed with a backslash ('\'); While with extended (ERE) syntax
+it is reversed: these characters are special unless they are prefixed
+with backslash ('\').
 
 Desired pattern      Basic (BRE) Syntax         Extended (ERE) Syntax
                                                 
@@ -1945,8 +1961,8 @@ Examples:
 '[a-zA-Z0-9]'
      In the C locale, this matches any ASCII letters or digits.
 
-'[^ 'tab']\+'
-     (Here 'tab' stands for a single tab character.)  This matches a
+'[^ '<TAB>']\+'
+     (Here '<TAB>' stands for a single tab character.)  This matches a
      string of one or more characters, none of which is a space or a
      tab.  Usually this means a word.
 
@@ -3038,7 +3054,7 @@ regular expressions to be matched--this is a common technique.
      }
 
      # delete leading and trailing spaces
-     y/tab/ /
+     y/<TAB>/ /
      s/^ *//
      s/ *$//
 
@@ -3677,7 +3693,7 @@ commenting 'sed' scripts.
      #!/usr/bin/sed -nf
 
      # Convert words to a's
-     s/[ tab][ tab]*/ /g
+     s/[ <TAB>][ <TAB>]*/ /g
      s/^/ /
      s/ [^ ][^ ]*/a /g
      s/ //g
@@ -4770,11 +4786,11 @@ exception of the 'sed' commands and command-line options.
 * exit status:                           Exit status.         (line   6)
 * exit status, example:                  Exit status.         (line  25)
 * Extended regular expressions, choosing: Command-Line Options.
-                                                              (line 119)
+                                                              (line 135)
 * Extended regular expressions, syntax:  ERE syntax.          (line   6)
 * File name, printing:                   Extended Commands.   (line  30)
 * Files to be processed as input:        Command-Line Options.
-                                                              (line 165)
+                                                              (line 181)
 * Flow of control in scripts:            Programming Commands.
                                                               (line  11)
 * Global substitution:                   The "s" Command.     (line  74)
@@ -4783,7 +4799,7 @@ exception of the 'sed' commands and command-line options.
 * GNU extensions, /dev/stdin file:       Other Commands.      (line 227)
 * GNU extensions, /dev/stdin file <1>:   Extended Commands.   (line  53)
 * GNU extensions, /dev/stdout file:      Command-Line Options.
-                                                              (line 173)
+                                                              (line 189)
 * GNU extensions, /dev/stdout file <1>:  The "s" Command.     (line 101)
 * GNU extensions, /dev/stdout file <2>:  Other Commands.      (line 240)
 * GNU extensions, 0 address:             Range Addresses.     (line  31)
@@ -4796,8 +4812,10 @@ exception of the 'sed' commands and command-line options.
                                                               (line  29)
 * GNU extensions, checking for their presence: Extended Commands.
                                                               (line  69)
+* GNU extensions, debug:                 Command-Line Options.
+                                                              (line  29)
 * GNU extensions, disabling:             Command-Line Options.
-                                                              (line  86)
+                                                              (line 102)
 * GNU extensions, emptying pattern space: Extended Commands.  (line  85)
 * GNU extensions, emptying pattern space <1>: Reporting Bugs. (line 143)
 * GNU extensions, evaluating Bourne-shell commands: The "s" Command.
@@ -4805,12 +4823,12 @@ exception of the 'sed' commands and command-line options.
 * GNU extensions, evaluating Bourne-shell commands <1>: Extended Commands.
                                                               (line  12)
 * GNU extensions, extended regular expressions: Command-Line Options.
-                                                              (line 119)
+                                                              (line 135)
 * GNU extensions, g and NUMBER modifier: The "s" Command.     (line  80)
 * GNU extensions, I modifier:            The "s" Command.     (line 117)
 * GNU extensions, I modifier <1>:        Regexp Addresses.    (line  47)
 * GNU extensions, in-place editing:      Command-Line Options.
-                                                              (line  40)
+                                                              (line  56)
 * GNU extensions, in-place editing <1>:  Reporting Bugs.      (line  95)
 * GNU extensions, M modifier:            The "s" Command.     (line 122)
 * GNU extensions, M modifier <1>:        Regexp Addresses.    (line  75)
@@ -4869,9 +4887,9 @@ exception of the 'sed' commands and command-line options.
 * i, and semicolons:                     sed script overview. (line  56)
 * In-place editing:                      Reporting Bugs.      (line  95)
 * In-place editing, activating:          Command-Line Options.
-                                                              (line  40)
+                                                              (line  56)
 * In-place editing, Perl-style backup file names: Command-Line Options.
-                                                              (line  51)
+                                                              (line  67)
 * infinite loop, branching:              Branching and flow control.
                                                               (line  95)
 * Inserting text before a line:          Other Commands.      (line 104)
@@ -4885,7 +4903,7 @@ exception of the 'sed' commands and command-line options.
                                                               (line  14)
 * Last line, selecting:                  Numeric Addresses.   (line  13)
 * Line length, setting:                  Command-Line Options.
-                                                              (line  81)
+                                                              (line  97)
 * Line length, setting <1>:              Other Commands.      (line 207)
 * Line number, printing:                 Other Commands.      (line 194)
 * Line selection:                        Numeric Addresses.   (line   6)
@@ -4935,7 +4953,7 @@ exception of the 'sed' commands and command-line options.
 * POSIXLY_CORRECT behavior, bracket expressions: Character Classes and Bracket Expressions.
                                                               (line 112)
 * POSIXLY_CORRECT behavior, enabling:    Command-Line Options.
-                                                              (line  89)
+                                                              (line 105)
 * POSIXLY_CORRECT behavior, escapes:     Escapes.             (line  11)
 * POSIXLY_CORRECT behavior, N command:   Reporting Bugs.      (line  56)
 * Print first line from pattern space:   Other Commands.      (line 269)
@@ -4979,13 +4997,13 @@ exception of the 'sed' commands and command-line options.
 * restarting a cycle:                    Branching and flow control.
                                                               (line  75)
 * Sandbox mode:                          Command-Line Options.
-                                                              (line 141)
+                                                              (line 157)
 * script parameter:                      Overview.            (line  43)
 * Script structure:                      sed script overview. (line   6)
 * Script, from a file:                   Command-Line Options.
-                                                              (line  35)
+                                                              (line  51)
 * Script, from command line:             Command-Line Options.
-                                                              (line  30)
+                                                              (line  46)
 * sed commands syntax:                   sed script overview. (line  13)
 * sed commands, multiple:                sed script overview. (line  37)
 * sed script structure:                  sed script overview. (line   6)
@@ -5000,7 +5018,7 @@ exception of the 'sed' commands and command-line options.
 * Special addressing forms:              Range Addresses.     (line  31)
 * standard input:                        Overview.            (line  15)
 * Standard input, processing as input:   Command-Line Options.
-                                                              (line 167)
+                                                              (line 183)
 * standard output:                       Overview.            (line  23)
 * stdin:                                 Overview.            (line  15)
 * stdout:                                Overview.            (line  23)
@@ -5026,7 +5044,7 @@ exception of the 'sed' commands and command-line options.
                                                               (line 101)
 * Transliteration:                       Other Commands.      (line  11)
 * Unbuffered I/O, choosing:              Command-Line Options.
-                                                              (line 148)
+                                                              (line 164)
 * upper-case letters:                    Character Classes and Bracket Expressions.
                                                               (line  84)
 * Usage summary, printing:               Command-Line Options.
@@ -5036,7 +5054,7 @@ exception of the 'sed' commands and command-line options.
 * whitespace characters:                 Character Classes and Bracket Expressions.
                                                               (line  80)
 * Working on separate files:             Command-Line Options.
-                                                              (line 132)
+                                                              (line 148)
 * Write first line to a file:            Extended Commands.   (line  80)
 * Write to a file:                       Other Commands.      (line 240)
 * xdigit class:                          Character Classes and Bracket Expressions.
@@ -5057,62 +5075,64 @@ options.
 
 * # (comments):                          Common Commands.     (line  12)
 * --binary:                              Command-Line Options.
-                                                              (line  98)
+                                                              (line 114)
+* --debug:                               Command-Line Options.
+                                                              (line  29)
 * --expression:                          Command-Line Options.
-                                                              (line  30)
+                                                              (line  46)
 * --file:                                Command-Line Options.
-                                                              (line  35)
+                                                              (line  51)
 * --follow-symlinks:                     Command-Line Options.
-                                                              (line 109)
+                                                              (line 125)
 * --help:                                Command-Line Options.
                                                               (line  17)
 * --in-place:                            Command-Line Options.
-                                                              (line  40)
+                                                              (line  56)
 * --line-length:                         Command-Line Options.
-                                                              (line  81)
+                                                              (line  97)
 * --null-data:                           Command-Line Options.
-                                                              (line 156)
+                                                              (line 172)
 * --posix:                               Command-Line Options.
-                                                              (line  86)
+                                                              (line 102)
 * --quiet:                               Command-Line Options.
                                                               (line  23)
 * --regexp-extended:                     Command-Line Options.
-                                                              (line 119)
+                                                              (line 135)
 * --sandbox:                             Command-Line Options.
-                                                              (line 141)
+                                                              (line 157)
 * --separate:                            Command-Line Options.
-                                                              (line 132)
+                                                              (line 148)
 * --silent:                              Command-Line Options.
                                                               (line  23)
 * --unbuffered:                          Command-Line Options.
-                                                              (line 148)
+                                                              (line 164)
 * --version:                             Command-Line Options.
                                                               (line  13)
 * --zero-terminated:                     Command-Line Options.
-                                                              (line 156)
+                                                              (line 172)
 * -b:                                    Command-Line Options.
-                                                              (line  98)
+                                                              (line 114)
 * -e:                                    Command-Line Options.
-                                                              (line  30)
+                                                              (line  46)
 * -E:                                    Command-Line Options.
-                                                              (line 119)
+                                                              (line 135)
 * -f:                                    Command-Line Options.
-                                                              (line  35)
+                                                              (line  51)
 * -i:                                    Command-Line Options.
-                                                              (line  40)
+                                                              (line  56)
 * -l:                                    Command-Line Options.
-                                                              (line  81)
+                                                              (line  97)
 * -n:                                    Command-Line Options.
                                                               (line  23)
 * -n, forcing from within a script:      Common Commands.     (line  20)
 * -r:                                    Command-Line Options.
-                                                              (line 119)
+                                                              (line 135)
 * -s:                                    Command-Line Options.
-                                                              (line 132)
-* -u:                                    Command-Line Options.
                                                               (line 148)
+* -u:                                    Command-Line Options.
+                                                              (line 164)
 * -z:                                    Command-Line Options.
-                                                              (line 156)
+                                                              (line 172)
 * : (label) command:                     Programming Commands.
                                                               (line  14)
 * = (print line number) command:         Other Commands.      (line 194)
@@ -5182,76 +5202,76 @@ Node: Introduction2172
 Node: Invoking sed2726
 Node: Overview3039
 Node: Command-Line Options5297
-Ref: Command-Line Options-Footnote-112547
-Ref: Command-Line Options-Footnote-212739
-Node: Exit status12838
-Node: sed scripts13740
-Node: sed script overview14313
-Node: sed commands list16834
-Node: The "s" Command21624
-Ref: The "s" Command-Footnote-127086
-Node: Common Commands27158
-Node: Other Commands30183
-Ref: insert command33297
-Ref: Other Commands-Footnote-139197
-Node: Programming Commands39269
-Node: Extended Commands40181
-Node: Multiple commands syntax44073
-Node: sed addresses48390
-Node: Addresses overview48819
-Node: Numeric Addresses50595
-Node: Regexp Addresses51946
-Ref: Regexp Addresses-Footnote-155902
-Node: Range Addresses56042
-Node: sed regular expressions58522
-Node: Regular Expressions Overview59371
-Node: BRE vs ERE60878
-Node: BRE syntax62562
-Node: ERE syntax68947
-Node: Character Classes and Bracket Expressions70419
-Node: regexp extensions75257
-Node: Back-references and Subexpressions77645
-Node: Escapes80049
-Ref: Escapes-Footnote-183066
-Node: Locale Considerations83257
-Ref: Locale Considerations-Footnote-187880
-Node: advanced sed88052
-Node: Execution Cycle88411
-Ref: Execution Cycle-Footnote-189606
-Node: Hold and Pattern Buffers89907
-Node: Multiline techniques90095
-Node: Branching and flow control93309
-Node: Examples101358
-Node: Joining lines102558
-Node: Centering lines104345
-Node: Increment a number105262
-Ref: Increment a number-Footnote-1106739
-Node: Rename files to lower case106859
-Node: Print bash environment109632
-Node: Reverse chars of lines110387
-Ref: Reverse chars of lines-Footnote-1111418
-Node: Text search across multiple lines111635
-Node: Line length adjustment114860
-Node: tac116597
-Node: cat -n117364
-Node: cat -b119186
-Node: wc -c119935
-Ref: wc -c-Footnote-1121845
-Node: wc -w121914
-Node: wc -l123378
-Node: head123623
-Node: tail123954
-Node: uniq125635
-Node: uniq -d126422
-Node: uniq -u127133
-Node: cat -s127842
-Node: Limitations129689
-Node: Other Resources130530
-Node: Reporting Bugs131431
-Ref: N_command_last_line132594
-Ref: Reporting Bugs-Footnote-1138739
-Node: GNU Free Documentation License138810
-Node: Concept Index163965
-Node: Command and Option Index191107
+Ref: Command-Line Options-Footnote-112932
+Ref: Command-Line Options-Footnote-213124
+Node: Exit status13223
+Node: sed scripts14125
+Node: sed script overview14698
+Node: sed commands list17219
+Node: The "s" Command22008
+Ref: The "s" Command-Footnote-127470
+Node: Common Commands27542
+Node: Other Commands30567
+Ref: insert command33681
+Ref: Other Commands-Footnote-139581
+Node: Programming Commands39653
+Node: Extended Commands40565
+Node: Multiple commands syntax44457
+Node: sed addresses48774
+Node: Addresses overview49203
+Node: Numeric Addresses50979
+Node: Regexp Addresses52330
+Ref: Regexp Addresses-Footnote-156282
+Node: Range Addresses56422
+Node: sed regular expressions58902
+Node: Regular Expressions Overview59751
+Node: BRE vs ERE61258
+Node: BRE syntax62949
+Node: ERE syntax69338
+Node: Character Classes and Bracket Expressions70810
+Node: regexp extensions75648
+Node: Back-references and Subexpressions78036
+Node: Escapes80440
+Ref: Escapes-Footnote-183457
+Node: Locale Considerations83648
+Ref: Locale Considerations-Footnote-188271
+Node: advanced sed88443
+Node: Execution Cycle88802
+Ref: Execution Cycle-Footnote-189997
+Node: Hold and Pattern Buffers90298
+Node: Multiline techniques90486
+Node: Branching and flow control93700
+Node: Examples101749
+Node: Joining lines102949
+Node: Centering lines104736
+Node: Increment a number105655
+Ref: Increment a number-Footnote-1107132
+Node: Rename files to lower case107252
+Node: Print bash environment110025
+Node: Reverse chars of lines110780
+Ref: Reverse chars of lines-Footnote-1111811
+Node: Text search across multiple lines112028
+Node: Line length adjustment115253
+Node: tac116990
+Node: cat -n117757
+Node: cat -b119579
+Node: wc -c120328
+Ref: wc -c-Footnote-1122238
+Node: wc -w122307
+Node: wc -l123775
+Node: head124020
+Node: tail124351
+Node: uniq126032
+Node: uniq -d126819
+Node: uniq -u127530
+Node: cat -s128239
+Node: Limitations130086
+Node: Other Resources130927
+Node: Reporting Bugs131828
+Ref: N_command_last_line132991
+Ref: Reporting Bugs-Footnote-1139136
+Node: GNU Free Documentation License139207
+Node: Concept Index164362
+Node: Command and Option Index191640
 
 End Tag Table

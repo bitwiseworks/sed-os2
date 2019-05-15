@@ -43,6 +43,9 @@ LOG_COMPILER = false
 
 T =					\
   testsuite/misc.pl			\
+  testsuite/bug32082.sh		\
+  testsuite/bug32271-1.sh		\
+  testsuite/bug32271-2.sh		\
   testsuite/cmd-l.sh			\
   testsuite/cmd-R.sh			\
   testsuite/colon-with-no-label.sh	\
@@ -51,6 +54,7 @@ T =					\
   testsuite/compile-tests.sh		\
   testsuite/convert-number.sh		\
   testsuite/command-endings.sh		\
+  testsuite/debug.pl			\
   testsuite/execute-tests.sh		\
   testsuite/help-version.sh		\
   testsuite/in-place-hyphen.sh		\
@@ -61,9 +65,11 @@ T =					\
   testsuite/mb-charclass-non-utf8.sh	\
   testsuite/mb-match-slash.sh		\
   testsuite/mb-y-translate.sh		\
+  testsuite/missing-filename.sh		\
   testsuite/newline-dfa-bug.sh		\
   testsuite/normalize-text.sh		\
   testsuite/nulldata.sh			\
+  testsuite/obinary.sh			\
   testsuite/panic-tests.sh		\
   testsuite/posix-char-class.sh		\
   testsuite/posix-mode-addr.sh		\
@@ -106,6 +112,7 @@ T += testsuite/8bit.sh			\
      testsuite/stdin.sh                 \
      testsuite/utf8-ru.sh		\
      testsuite/uniq.sh			\
+     testsuite/word-delim.sh		\
      testsuite/xemacs.sh
 
 TESTS = $(SEDTESTS) $(T)
