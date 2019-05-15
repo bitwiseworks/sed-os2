@@ -38,6 +38,10 @@
 extern bool binary_mode;
 #endif
 
+/* The mode to use to read and write files, either "rt"/"w" or "rb"/"wb".  */
+extern char const *read_mode;
+extern char const *write_mode;
+
 /* Store information about files opened with ck_fopen
    so that error messages from ck_fread, ck_fwrite, etc. can print the
    name of the file that had the error */
