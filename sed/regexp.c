@@ -12,8 +12,7 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program; if not, write to the Free Software
-    Foundation, 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA. */
+    along with this program; If not, see <https://www.gnu.org/licenses/>. */
 
 #include "sed.h"
 
@@ -22,6 +21,8 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+
+#include "xalloc.h"
 
 #ifdef gettext_noop
 # define N_(String) gettext_noop(String)
@@ -38,7 +39,6 @@ static const char errors[] =
 #define NO_REGEX (errors)
 #define BAD_MODIF (NO_REGEX + sizeof(N_("no previous regular expression")))
 
-
 
 void
 dfaerror (char const *mesg)
@@ -53,25 +53,10 @@ dfawarn (char const *mesg)
     dfaerror (mesg);
 }
 
-
 
 static void
 compile_regex_1 (struct regex *new_regex, int needed_sub)
 {
-#ifdef REG_PERL
-  int errcode;
-  errcode = regncomp(&new_regex->pattern, new_regex->re, new_regex->sz,
-                     (needed_sub ? 0 : REG_NOSUB)
-                     | new_regex->flags
-                     | extended_regexp_flags);
-
-  if (errcode)
-    {
-      char errorbuf[200];
-      regerror(errcode, NULL, errorbuf, 200);
-      bad_prog(gettext(errorbuf));
-    }
-#else
   const char *error;
   int syntax = ((extended_regexp_flags & REG_EXTENDED)
                  ? RE_SYNTAX_POSIX_EXTENDED
@@ -119,9 +104,9 @@ compile_regex_1 (struct regex *new_regex, int needed_sub)
 #ifndef RE_ICASE
   if (new_regex->flags & REG_ICASE)
     {
-      static char translate[1 << (sizeof(char) * 8)];
+      static char translate[1 << (sizeof (char) * 8)];
       int i;
-      for (i = 0; i < sizeof(translate) / sizeof(char); i++)
+      for (i = 0; i < sizeof (translate) / sizeof (char); i++)
         translate[i] = tolower (i);
 
       new_regex->pattern.translate = translate;
@@ -129,8 +114,7 @@ compile_regex_1 (struct regex *new_regex, int needed_sub)
 #endif
 
   if (error)
-    bad_prog(error);
-#endif
+    bad_prog (error);
 
   /* Just to be sure, I mark this as not POSIXLY_CORRECT behavior */
   if (needed_sub
@@ -138,9 +122,9 @@ compile_regex_1 (struct regex *new_regex, int needed_sub)
       && posixicity == POSIXLY_EXTENDED)
     {
       char buf[200];
-      sprintf(buf, _("invalid reference \\%d on `s' command's RHS"),
+      sprintf (buf, _("invalid reference \\%d on `s' command's RHS"),
               needed_sub - 1);
-      bad_prog(buf);
+      bad_prog (buf);
     }
 
   int dfaopts = buffer_delimiter == '\n' ? 0 : DFA_EOL_NUL;
@@ -162,85 +146,38 @@ compile_regex_1 (struct regex *new_regex, int needed_sub)
 }
 
 struct regex *
-compile_regex(struct buffer *b, int flags, int needed_sub)
+compile_regex (struct buffer *b, int flags, int needed_sub)
 {
   struct regex *new_regex;
   size_t re_len;
 
   /* // matches the last RE */
-  if (size_buffer(b) == 0)
+  if (size_buffer (b) == 0)
     {
       if (flags > 0)
-        bad_prog(_(BAD_MODIF));
+        bad_prog (_(BAD_MODIF));
       return NULL;
     }
 
-  re_len = size_buffer(b);
-  new_regex = ck_malloc(sizeof (struct regex) + re_len - 1);
+  re_len = size_buffer (b);
+  new_regex = xzalloc (sizeof (struct regex) + re_len - 1);
   new_regex->flags = flags;
-  memcpy (new_regex->re, get_buffer(b), re_len);
+  memcpy (new_regex->re, get_buffer (b), re_len);
 
-#ifdef REG_PERL
-  new_regex->sz = re_len;
-#else
   /* GNU regex does not process \t & co. */
-  new_regex->sz = normalize_text(new_regex->re, re_len, TEXT_REGEX);
-#endif
+  new_regex->sz = normalize_text (new_regex->re, re_len, TEXT_REGEX);
 
   compile_regex_1 (new_regex, needed_sub);
   return new_regex;
 }
 
-#ifdef REG_PERL
-static void
-copy_regs (regs, pmatch, nregs)
-     struct re_registers *regs;
-     regmatch_t *pmatch;
-     int nregs;
-{
-  int i;
-  int need_regs = nregs + 1;
-  /* We need one extra element beyond `num_regs' for the `-1' marker GNU code
-     uses.  */
-
-  /* Have the register data arrays been allocated?  */
-  if (!regs->start)
-    { /* No.  So allocate them with malloc.  */
-      regs->start = MALLOC (need_regs, regoff_t);
-      regs->end = MALLOC (need_regs, regoff_t);
-      regs->num_regs = need_regs;
-    }
-  else if (need_regs > regs->num_regs)
-    { /* Yes.  We also need more elements than were already
-         allocated, so reallocate them.  */
-      regs->start = REALLOC (regs->start, need_regs, regoff_t);
-      regs->end = REALLOC (regs->end, need_regs, regoff_t);
-      regs->num_regs = need_regs;
-    }
-
-  /* Copy the regs.  */
-  for (i = 0; i < nregs; ++i)
-    {
-      regs->start[i] = pmatch[i].rm_so;
-      regs->end[i] = pmatch[i].rm_eo;
-    }
-  for ( ; i < regs->num_regs; ++i)
-    regs->start[i] = regs->end[i] = -1;
-}
-#endif
-
 int
-match_regex(struct regex *regex, char *buf, size_t buflen,
+match_regex (struct regex *regex, char *buf, size_t buflen,
             size_t buf_start_offset, struct re_registers *regarray,
             int regsize)
 {
   int ret;
   static struct regex *regex_last;
-#ifdef REG_PERL
-  regmatch_t rm[10], *regmatch = rm;
-  if (regsize > 10)
-    regmatch = alloca (sizeof (regmatch_t) * regsize);
-#endif
 
   /* printf ("Matching from %d/%d\n", buf_start_offset, buflen); */
 
@@ -249,7 +186,7 @@ match_regex(struct regex *regex, char *buf, size_t buflen,
     {
       regex = regex_last;
       if (!regex_last)
-        bad_prog(_(NO_REGEX));
+        bad_prog (_(NO_REGEX));
     }
   else
     regex_last = regex;
@@ -258,18 +195,20 @@ match_regex(struct regex *regex, char *buf, size_t buflen,
   if (buflen >= INT_MAX)
     panic (_("regex input buffer length larger than INT_MAX"));
 
-#ifdef REG_PERL
-  regmatch[0].rm_so = (int)buf_start_offset;
-  regmatch[0].rm_eo = (int)buflen;
-  ret = regexec (&regex->pattern, buf, regsize, regmatch, REG_STARTEND);
-
-  if (regsize)
-    copy_regs (regarray, regmatch, regsize);
-
-  return (ret == 0);
-#else
   if (regex->pattern.no_sub && regsize)
-    compile_regex_1 (regex, regsize);
+    {
+      /* Re-compiling an existing regex, free the previously allocated
+         structures.  */
+      if (regex->dfa)
+        {
+          dfafree (regex->dfa);
+          free (regex->dfa);
+          regex->dfa = NULL;
+        }
+      regfree (&regex->pattern);
+
+      compile_regex_1 (regex, regsize);
+    }
 
   regex->pattern.regs_allocated = REGS_REALLOCATE;
 
@@ -283,7 +222,8 @@ match_regex(struct regex *regex, char *buf, size_t buflen,
           const char *p = NULL;
 
           if (regex->flags & REG_NEWLINE)
-            p = memchr (buf + buf_start_offset, buffer_delimiter, buflen);
+            p = memchr (buf + buf_start_offset, buffer_delimiter,
+                        buflen - buf_start_offset);
 
           offset = p ? p - buf : buflen;
         }
@@ -322,8 +262,8 @@ match_regex(struct regex *regex, char *buf, size_t buflen,
 
           if (!regarray->start)
             {
-              regarray->start = MALLOC (1, regoff_t);
-              regarray->end = MALLOC (1, regoff_t);
+              regarray->start = XCALLOC (1, regoff_t);
+              regarray->end = XCALLOC (1, regoff_t);
               regarray->num_regs = 1;
             }
 
@@ -420,15 +360,20 @@ match_regex(struct regex *regex, char *buf, size_t buflen,
                      regsize ? regarray : NULL);
 
   return (ret > -1);
-#endif
 }
 
 
-#ifdef DEBUG_LEAKS
+#ifdef lint
 void
-release_regex(struct regex *regex)
+release_regex (struct regex *regex)
 {
-  regfree(&regex->pattern);
-  free(regex);
+  if (regex->dfa)
+    {
+      dfafree (regex->dfa);
+      free (regex->dfa);
+      regex->dfa = NULL;
+    }
+  regfree (&regex->pattern);
+  free (regex);
 }
-#endif /*DEBUG_LEAKS*/
+#endif /* lint */

@@ -14,8 +14,8 @@
 m4_ifndef([AC_CONFIG_MACRO_DIRS], [m4_defun([_AM_CONFIG_MACRO_DIRS], [])m4_defun([AC_CONFIG_MACRO_DIRS], [_AM_CONFIG_MACRO_DIRS($@)])])
 m4_ifndef([AC_AUTOCONF_VERSION],
   [m4_copy([m4_PACKAGE_VERSION], [AC_AUTOCONF_VERSION])])dnl
-m4_if(m4_defn([AC_AUTOCONF_VERSION]), [2.69.193-8974],,
-[m4_warning([this file was generated for autoconf 2.69.193-8974.
+m4_if(m4_defn([AC_AUTOCONF_VERSION]), [2.69.197-b8fd7],,
+[m4_warning([this file was generated for autoconf 2.69.197-b8fd7.
 You have another version of autoconf.  It may work, but is not guaranteed to.
 If you have problems, you may need to regenerate the build system entirely.
 To do so, use the procedure documented by the package, typically 'autoreconf'.])])
@@ -1163,11 +1163,11 @@ AC_SUBST([am__untar])
 ]) # _AM_PROG_TAR
 
 m4_include([m4/00gnulib.m4])
+m4_include([m4/__inline.m4])
 m4_include([m4/absolute-header.m4])
 m4_include([m4/acl.m4])
 m4_include([m4/alloca.m4])
 m4_include([m4/arpa_inet_h.m4])
-m4_include([m4/asm-underscore.m4])
 m4_include([m4/assert.m4])
 m4_include([m4/btowc.m4])
 m4_include([m4/builtin-expect.m4])
@@ -1177,7 +1177,6 @@ m4_include([m4/close.m4])
 m4_include([m4/closedir.m4])
 m4_include([m4/closeout.m4])
 m4_include([m4/codeset.m4])
-m4_include([m4/configmake.m4])
 m4_include([m4/ctype.m4])
 m4_include([m4/dirent_h.m4])
 m4_include([m4/dirfd.m4])
@@ -1217,11 +1216,11 @@ m4_include([m4/gettimeofday.m4])
 m4_include([m4/glibc21.m4])
 m4_include([m4/gnulib-common.m4])
 m4_include([m4/gnulib-comp.m4])
-m4_include([m4/hard-locale.m4])
 m4_include([m4/host-cpu-c-abi.m4])
 m4_include([m4/iconv.m4])
 m4_include([m4/include_next.m4])
 m4_include([m4/inet_pton.m4])
+m4_include([m4/intl-thread-locale.m4])
 m4_include([m4/intlmacosx.m4])
 m4_include([m4/inttypes-pri.m4])
 m4_include([m4/inttypes.m4])
@@ -1259,6 +1258,7 @@ m4_include([m4/mbtowc.m4])
 m4_include([m4/memchr.m4])
 m4_include([m4/memrchr.m4])
 m4_include([m4/minmax.m4])
+m4_include([m4/mkdir.m4])
 m4_include([m4/mkostemp.m4])
 m4_include([m4/mmap-anon.m4])
 m4_include([m4/mode_t.m4])

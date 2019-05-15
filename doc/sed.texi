@@ -51,7 +51,7 @@ section entitled ``GNU Free Documentation License''.
 @titlepage
 @title @value{SSED}, a stream editor
 @subtitle version @value{VERSION}, @value{UPDATED}
-@author by Ken Pizzini, Paolo Bonzini
+@author by Ken Pizzini, Paolo Bonzini, Jim Meyering, Assaf Gordon
 
 @page
 @vskip 0pt plus 1filll
@@ -252,6 +252,31 @@ How @code{sed} works}).
 These options disable this automatic printing,
 and @command{sed} only produces output when explicitly told to
 via the @code{p} command.
+
+@item --debug
+@opindex --debug
+@cindex @value{SSEDEXT}, debug
+Print the input sed program in canonical form,
+and annotate program execution.
+@codequotebacktick on
+@codequoteundirected on
+@example
+$ echo 1 | sed '\%1%s21232'
+3
+
+$ echo 1 | sed --debug '\%1%s21232'
+SED PROGRAM:
+  /1/ s/1/3/
+INPUT:   'STDIN' line 1
+PATTERN: 1
+COMMAND: /1/ s/1/3/
+PATTERN: 3
+END-OF-CYCLE:
+3
+@end example
+@codequotebacktick off
+@codequoteundirected off
+
 
 @item -e @var{script}
 @itemx --expression=@var{script}
@@ -2226,7 +2251,7 @@ a lot of slashes, since it avoids the tedious escaping of every @code{/}.
 If @var{regexp} itself includes any delimiter characters,
 each must be escaped by a backslash (@code{\}).
 
-The following two commands are equivalent. They print lines
+The following commands are equivalent. They print lines
 which start with @samp{/home/alice/documents/}:
 
 @example
@@ -2509,7 +2534,7 @@ expressions is in the behavior of a few special characters: @samp{?},
 @samp{+}, parentheses, braces (@samp{@{@}}), and @samp{|}.
 
 With basic (BRE) syntax, these characters do not have special meaning
-unless prefixed backslash (@samp{\}); While with extended (ERE) syntax
+unless prefixed with a backslash (@samp{\}); While with extended (ERE) syntax
 it is reversed: these characters are special unless they are prefixed
 with backslash (@samp{\}).
 
@@ -2763,8 +2788,8 @@ because it is escaped.
 @item [a-zA-Z0-9]
 In the C locale, this matches any ASCII letters or digits.
 
-@item [^ @kbd{tab}]\+
-(Here @kbd{tab} stands for a single tab character.)
+@item [^ @kbd{@key{TAB}}]\+
+(Here @kbd{@key{TAB}} stands for a single tab character.)
 This matches a string of one or more
 characters, none of which is a space or a tab.
 Usually this means a word.
@@ -4235,7 +4260,7 @@ technique.
 
 @group
 # delete leading and trailing spaces
-y/@kbd{tab}/ /
+y/@kbd{@key{TAB}}/ /
 s/^ *//
 s/ *$//
 @end group
@@ -5055,7 +5080,7 @@ of commenting @command{sed} scripts.
 
 @group
 # Convert words to a's
-s/[ @kbd{tab}][ @kbd{tab}]*/ /g
+s/[ @kbd{@key{TAB}}][ @kbd{@key{TAB}}]*/ /g
 s/^/ /
 s/ [^ ][^ ]*/a /g
 s/ //g
